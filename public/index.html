@@ -214,9 +214,9 @@
   <dialog id="reward-dialog" aria-labelledby="reward-title"><div class="dialog-inner reward-inner"><button id="reward-close" class="close-dialog" aria-label="선물 닫기">×</button><h2 id="reward-title">새 옷 획득</h2><div id="reward-preview"></div><h3 id="reward-name"></h3><p id="reward-description"></p><button id="reward-equip" class="solid-button">입히기</button><button id="reward-later" class="text-button">나중에</button></div></dialog>
   <dialog id="vocab-dialog" class="vocab-dialog" aria-labelledby="vocab-title"><div class="dialog-inner vocab-inner"><button class="close-dialog" data-close-study-dialog="vocab-dialog" aria-label="단어장 닫기">×</button><h2 id="vocab-title">내 단어장</h2>
     <div class="vocab-toolbar"><label id="vocab-upload-label" class="vocab-upload">TXT 올리기<input id="vocab-file" class="vocab-file" type="file" accept=".txt,text/plain" aria-label="TXT 단어장 업로드"></label><a href="/words-example.txt" download="단어장-예시.txt" class="text-button">예시 파일 받기</a></div>
-    <p class="study-note">한 줄에 단어와 뜻을 띄어쓰기로 나눠 적어주세요. UTF-8 TXT · 256KB · 최대 1,000개<br>추가로 올리면 기존 단어에 더해져요. 저장한 단어는 다음에도 그대로 있어요.</p><pre class="vocab-example">apple 사과
+    <p class="study-note">한 줄에 단어와 뜻을 탭으로 나눠 적어주세요. UTF-8 TXT · 256KB · 최대 1,000개<br>추가로 올리면 기존 단어에 더해져요. 저장한 단어는 다음에도 그대로 있어요.</p><pre class="vocab-example">apple 사과
 ありがとう 고마워
-look 찾다, 바라보다</pre><p class="study-note">첫 띄어쓰기 뒤는 모두 뜻이에요. 여러 단어로 된 표현은 &quot;look up&quot; 찾아보다처럼 큰따옴표로 감싸주세요.</p>
+look up 찾다, 바라보다</pre><p class="study-note">첫 탭 뒤는 모두 뜻이에요.</p>
     <p class="study-dialog-error error-text" role="alert"></p><button data-study-retry class="text-button" hidden>저장 확인 / 다시 시도</button><p id="vocab-upload-status" class="study-note" role="status"></p><p id="vocab-lock" class="study-note"></p>
     <input id="vocab-search" class="vocab-search" type="search" placeholder="단어 또는 뜻 찾기" aria-label="단어장 검색"><div id="vocab-list" class="vocab-list"></div><div class="vocab-pages"><button id="vocab-prev" class="text-button">이전</button><span id="vocab-page"></span><button id="vocab-next" class="text-button">다음</button></div>
   </div></dialog>
