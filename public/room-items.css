@@ -1,0 +1,16 @@
+.shop-categories{display:flex;gap:7px;margin:0 0 18px}.shop-categories button{border:1px solid #dfe3d3;background:transparent;border-radius:8px;padding:8px 17px;font-size:12px}.shop-categories button[aria-pressed=true]{background:#839b79;border-color:#839b79;color:#fffef4}
+.item-preview{width:100%;height:100px;background:#f0eee3;border-radius:11px;display:grid;place-items:center}.item-preview svg{height:87px;width:87px}
+.room-object{position:absolute;pointer-events:none;z-index:2}.room-object svg{width:100%;height:100%}.room.walking .room-object,.room-object.in-use{display:none}
+.room-tennis{width:38px;height:38px;left:16px;bottom:85px}.room-duck{width:43px;height:43px;left:43px;bottom:111px}.room-rope{width:50px;height:50px;left:10px;bottom:125px}
+.room-lamp{width:78px;height:105px;left:14px;top:244px;filter:drop-shadow(0 0 16px #f7df9b66)}.room-shelf{width:116px;height:116px;left:14px;top:72px}
+.room.has-lamp:not(.walking)>.plant,.room.has-shelf:not(.walking)>.wall-art{visibility:hidden}
+.room-bed{width:72%;height:170px;left:14%;bottom:61px;z-index:2}.room-bed svg{overflow:visible}.room.has-bed:not(.walking)>.rug{visibility:hidden}
+.purchased-toy{display:none}.pet-stage[data-animation=focus][data-focus-mood=play]:not([data-focus-toy=basic]) .focus-ball .rolling-ball{display:none}
+.pet-stage[data-animation=focus][data-focus-mood=play]:not([data-focus-toy=basic]) .purchased-toy{display:block;transform-origin:296px 350px;animation:roll-ball 3.2s ease-in-out infinite}
+.pet-stage[data-focus-toy=duck] .purchased-toy{animation:duck-bounce 2s ease-in-out infinite!important}.pet-stage[data-focus-toy=duck] .pug-head{animation:duck-nod 2s ease-in-out infinite!important}
+.pet-stage[data-focus-toy=rope] .purchased-toy{animation:rope-pull 2.6s ease-in-out infinite!important}.pet-stage[data-focus-toy=rope] .right-paw{animation:rope-paw 2.6s ease-in-out infinite!important}
+@keyframes duck-bounce{0%,100%{transform:translate(-8px,0) rotate(-5deg)}35%{transform:translate(-8px,5px) scaleY(.8)}60%{transform:translate(4px,-12px) rotate(12deg)}80%{transform:translate(-3px,-2px)}}
+@keyframes duck-nod{0%,100%{transform:rotate(2deg)}35%{transform:translateY(7px) rotate(5deg)}65%{transform:rotate(-3deg)}}
+@keyframes rope-pull{0%,100%{transform:translate(-25px,-4px) rotate(-14deg) scaleX(.9)}50%{transform:translate(-36px,-9px) rotate(-24deg) scaleX(1.15)}}
+@keyframes rope-paw{0%,100%{transform:rotate(-15deg)}50%{transform:translate(5px,-8px) rotate(-38deg)}}
+@media(max-width:600px){.room-shelf{width:94px;height:94px;left:13px;top:65px}.room-lamp{top:219px;width:62px;height:90px}.room-tennis{left:8px}.room-duck{left:28px}.room-rope{left:5px}}

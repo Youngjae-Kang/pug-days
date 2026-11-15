@@ -1,0 +1,27 @@
+.focus-ball,.focus-book,.focus-glasses{display:none}
+.pet-stage[data-animation=focus] .focus-sparkles{display:none}
+.pet-stage[data-animation=focus][data-focus-mood=play] .pug-body,
+.pet-stage[data-animation=focus][data-focus-mood=play] .focus-ball{display:block}
+.pet-stage[data-animation=focus][data-focus-mood=play] .pose-down{display:none}
+.pet-stage[data-animation=focus][data-focus-mood=play] .pug-body{transform-origin:200px 347px;animation:solo-play 3.2s ease-in-out infinite}
+.pet-stage[data-animation=focus][data-focus-mood=play] .pug-head{transform-origin:200px 270px;animation:watch-ball 3.2s ease-in-out infinite}
+.pet-stage[data-animation=focus][data-focus-mood=play] .right-paw{transform-origin:240px 295px;animation:tap-ball 3.2s ease-in-out infinite}
+.pet-stage[data-animation=focus][data-focus-mood=play] .tail{animation:tail .8s ease-in-out infinite}
+.rolling-ball{transform-origin:296px 350px;animation:roll-ball 3.2s ease-in-out infinite}
+.ball-shadow{animation:ball-shadow 3.2s ease-in-out infinite;transform-origin:296px 374px}
+@keyframes solo-play{0%,100%{transform:translateX(-4px) rotate(-1deg)}25%{transform:translateX(7px) rotate(2deg)}55%{transform:translateX(-5px) rotate(-2deg)}75%{transform:translateX(0) rotate(1deg)}}
+@keyframes watch-ball{0%,100%{transform:rotate(2deg)}25%{transform:rotate(5deg) translateY(3px)}60%{transform:rotate(-4deg)}80%{transform:rotate(0)}}
+@keyframes tap-ball{0%,12%,70%,100%{transform:rotate(0)}26%,38%{transform:translate(7px,5px) rotate(-35deg)}52%{transform:rotate(-12deg)}}
+@keyframes roll-ball{0%,12%,100%{transform:translate(-10px,0) rotate(-25deg)}36%{transform:translate(37px,-12px) rotate(100deg)}50%{transform:translate(44px,0) rotate(145deg)}65%{transform:translate(26px,-5px) rotate(95deg)}82%{transform:translate(0,0) rotate(0)}}
+@keyframes ball-shadow{0%,12%,100%{transform:translateX(-10px) scaleX(1)}36%{transform:translateX(37px) scaleX(.7)}50%{transform:translateX(44px) scaleX(1)}65%{transform:translateX(26px) scaleX(.85)}82%{transform:translateX(0)}}
+.pet-stage[data-animation=focus][data-focus-mood=study] .focus-book,
+.pet-stage[data-animation=focus][data-focus-mood=study] .focus-glasses{display:block}
+.pet-stage[data-animation=focus] .down-settle,.pet-stage[data-animation=focus] .down-paws{animation:none}
+.pet-stage[data-animation=focus][data-focus-mood=study] .down-head{transform-origin:200px 303px;animation:reading-nod 4.8s ease-in-out infinite}
+.turning-page{transform-origin:200px 355px;animation:turn-page 4.8s ease-in-out infinite}
+@keyframes reading-nod{0%,100%{transform:translateY(0) rotate(-2deg)}35%{transform:translateY(4px) rotate(2deg)}65%{transform:translateY(1px) rotate(1deg)}85%{transform:translateY(3px) rotate(-1deg)}}
+@keyframes turn-page{0%,52%,100%{transform:scaleX(1);opacity:1}76%{transform:scaleX(-.92);opacity:1}89%{transform:scaleX(-1);opacity:0}90%{transform:scaleX(1);opacity:0}}
+.pet-stage[data-animation=focus][data-focus-mood=rest] .sleep-eyes{display:block}
+.pet-stage[data-animation=focus][data-focus-mood=rest] .sleep-bubbles{display:block;position:absolute;right:18%;top:44%;color:#8493a0;font-size:20px;letter-spacing:7px;animation:sleep-float 3s ease-in-out infinite}
+.pet-stage[data-animation=focus][data-focus-mood=rest] .sleep-bubbles span{font-size:15px}
+.room.focusing .room-hint{font-family:PugJua,"Malgun Gothic",sans-serif;font-size:13px;color:#7b886b}
