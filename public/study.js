@@ -128,6 +128,7 @@ function initStudy() {
   $('vocab-file').addEventListener('change', async event => {
     const file = event.target.files[0];
     if (!file) return;
+    $('vocab-upload-status').textContent = '업로드 중… 잠시만 기다려주세요.';
     try {
       if (!/\.txt$/i.test(file.name)) throw new Error('TXT 파일을 선택해주세요.');
       if (file.size > state.study.rules.maxFileBytes) throw new Error('파일은 256KB까지 올릴 수 있어요.');
