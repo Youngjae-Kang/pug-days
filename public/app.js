@@ -133,6 +133,7 @@ function render() {
   updateEnergy();
   renderRoomItems();
   renderJourney();
+  renderChristmas();
   renderStudy();
   updateWalkEvent();
 }
@@ -362,43 +363,6 @@ setInterval(() => {
 }, 1000);
 initNavigation();
 initJourney();
+initChristmas();
 initStudy();
 boot();
-// 새 공지를 올릴 때 이 값을 바꾸면 모두에게 다시 표시됩니다.
-const UPDATE_NOTICE_VERSION = 'christmas-2026-v1';
-const updateNoticeKey = `pug-update:${UPDATE_NOTICE_VERSION}`;
-
-const updateNotice = document.getElementById('update-notice');
-const updateNoticeHide = document.getElementById('update-notice-hide');
-
-function isUpdateNoticeHidden() {
-  try {
-    return localStorage.getItem(updateNoticeKey) === 'hidden';
-  } catch {
-    return false;
-  }
-}
-
-function showUpdateNotice() {
-  if (isUpdateNoticeHidden() || updateNotice.open) return;
-
-  // 이름 입력·저장 창 등이 열려 있으면 닫힌 뒤 표시해요.
-  if (document.querySelector('dialog[open]')) {
-    setTimeout(showUpdateNotice, 500);
-    return;
-  }
-
-  updateNotice.showModal();
-}
-
-updateNotice.addEventListener('close', () => {
-  if (updateNoticeHide.checked) {
-    try {
-      localStorage.setItem(updateNoticeKey, 'hidden');
-    } catch {
-      // 브라우저가 저장을 제한해도 공지는 닫힙니다.
-    }
-  }
-});
-
-showUpdateNotice();

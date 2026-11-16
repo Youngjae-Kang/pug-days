@@ -100,6 +100,7 @@ function renderJourney() {
     const button = journeyButton(label, `outfit-${outfit.id}`, () => {
       if (owned) act({ type: 'equip', outfit: equipped ? null : outfit.id });
       else if (outfit.price) act({ type: 'buy_outfit', outfit: outfit.id });
+      else if (outfit.id === 'christmas') showMainTab('christmas');
       else { journeyTab = 'story'; renderJourney(); }
     }, blocked || (!owned && outfit.price > p.biscuits));
     const missing = Math.max(0, outfit.price - p.biscuits);

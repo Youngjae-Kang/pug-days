@@ -6,7 +6,7 @@
   <title>퍼그랑</title>
   <link rel="preload" href="/fonts/Jua-Regular.ttf" as="font" type="font/ttf" crossorigin>
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/focus-scenes.css"><link rel="stylesheet" href="/room-items.css"><link rel="stylesheet" href="/rock.css"><link rel="stylesheet" href="/exploration.css"><script src="/exploration.js" defer></script><script src="/room-items.js" defer></script><script src="/focus-scenes.js" defer></script><script src="/journey.js" defer></script><link rel="stylesheet" href="/study.css"><script src="/navigation.js" defer></script><script src="/study.js" defer></script><script src="/app.js" defer></script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/focus-scenes.css"><link rel="stylesheet" href="/room-items.css"><link rel="stylesheet" href="/rock.css"><link rel="stylesheet" href="/exploration.css"><script src="/exploration.js" defer></script><script src="/room-items.js" defer></script><script src="/focus-scenes.js" defer></script><script src="/journey.js" defer></script><link rel="stylesheet" href="/study.css"><script src="/navigation.js" defer></script><script src="/study.js" defer></script><link rel="stylesheet" href="/christmas.css"><script src="/christmas.js" defer></script><script src="/app.js" defer></script>
 </head>
 <body>
 <svg class="shared-svg" aria-hidden="true" width="0" height="0"><defs>
@@ -46,10 +46,10 @@
                   <path d="M184 209c0-8 32-8 32 0 0 7-10 15-16 15s-16-8-16-15Z" fill="#302a28"/>
                   <path d="M200 224v10m0-2q-10 13-23 4m23-4q10 13 23 4" fill="none" stroke="#44352f" stroke-width="2.8"/>
                 </g>
-                <use class="graduation-cap" href="#graduation-cap-art"/></g></defs></svg>
+                <g class="santa-art"><path d="M128 100q22-90 95-66l44 50-32-8-29-26-15 50Z" fill="#c66a60" stroke="#9d514b" stroke-width="3"/><path d="M124 94q78-15 152 0v20q-78-14-152 0Z" fill="#fff3df" stroke="#dbcdb6" stroke-width="3"/><circle cx="265" cy="84" r="14" fill="#fff3df"/></g><g class="rudolph-art"><circle cx="200" cy="224" r="13" fill="#d9655b" stroke="#a94843" stroke-width="2"/><circle cx="196" cy="220" r="4" fill="#ffd2bc"/></g><use class="graduation-cap" href="#graduation-cap-art"/></g></defs></svg>
   <header class="topbar"><a class="brand" href="/" aria-label="퍼그랑 홈"><span class="brand-mark">p.</span> 퍼그랑</a><div class="header-tools"><span id="save-status" role="status"><i></i> 연결하는 중</span><button id="motion-toggle" class="text-button" aria-label="퍼그 모션" aria-pressed="false">모션</button><button id="save-menu" class="text-button">저장 / 불러오기</button></div></header>
   <main>
-<nav class="main-tabs" id="main-tabs" role="tablist" aria-label="게임 메뉴"><button id="main-tab-care" role="tab" aria-controls="care-panel" aria-selected="true">돌보기</button><button id="main-tab-study" role="tab" aria-controls="study-panel" aria-selected="false" tabindex="-1">단어 공부</button><button id="main-tab-journey" role="tab" aria-controls="journey-panel" aria-selected="false" tabindex="-1">퀘스트·상점 <span id="journey-summary" class="main-tab-count"></span></button></nav>
+<nav class="main-tabs" id="main-tabs" role="tablist" aria-label="게임 메뉴"><button id="main-tab-care" role="tab" aria-controls="care-panel" aria-selected="true">돌보기</button><button id="main-tab-study" role="tab" aria-controls="study-panel" aria-selected="false" tabindex="-1">단어 공부</button><button id="main-tab-journey" role="tab" aria-controls="journey-panel" aria-selected="false" tabindex="-1">퀘스트·상점 <span id="journey-summary" class="main-tab-count"></span></button><button id="main-tab-christmas" role="tab" aria-controls="christmas-panel" aria-selected="false" tabindex="-1">크리스마스</button></nav>
 <section id="care-panel" role="tabpanel" aria-labelledby="main-tab-care">      <div class="game-layout">
       <aside class="left-column">
         <section class="card affection-card"><div class="section-line"><h2>친밀도</h2><span class="heart-icon">♡</span></div><div class="bond-number"><strong id="affection">0</strong><span>/ 100</span></div><progress id="bond-bar" max="100" value="0" aria-label="친밀도">0</progress><div class="energy-meter"><div><span>체력</span><strong id="energy-value">100 / 100</strong></div><progress id="energy-bar" max="100" value="100" aria-label="체력">100</progress><p id="energy-hint">산책할 준비 완료!</p></div><div class="knowledge-meter"><div><span>지식</span><strong id="knowledge-value">0 / 100</strong></div><progress id="knowledge-bar" max="100" value="0" aria-label="퍼그 지식">0</progress><a href="#study" id="knowledge-today">퍼그와 단어 공부하기 →</a></div><span id="cheat-badge" class="badge cheat" hidden>치트 모드</span></section>
@@ -93,7 +93,7 @@
                   <path d="M184 209c0-8 32-8 32 0 0 7-10 15-16 15s-16-8-16-15Z" fill="#302a28"/>
                   <path d="M200 224v10m0-2q-10 13-23 4m23-4q10 13 23 4" fill="none" stroke="#44352f" stroke-width="2.8"/>
                 </g>
-                <use class="graduation-cap" href="#graduation-cap-art"/></g>
+                <g class="santa-art"><path d="M128 100q22-90 95-66l44 50-32-8-29-26-15 50Z" fill="#c66a60" stroke="#9d514b" stroke-width="3"/><path d="M124 94q78-15 152 0v20q-78-14-152 0Z" fill="#fff3df" stroke="#dbcdb6" stroke-width="3"/><circle cx="265" cy="84" r="14" fill="#fff3df"/></g><g class="rudolph-art"><circle cx="200" cy="224" r="13" fill="#d9655b" stroke="#a94843" stroke-width="2"/><circle cx="196" cy="220" r="4" fill="#ffd2bc"/></g><use class="graduation-cap" href="#graduation-cap-art"/></g>
               </g>
             </g>
             <g class="pose pose-walk" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -113,7 +113,7 @@
                   <path d="M310 253c10-9 25-4 28 7 5 16-10 26-26 20-12-5-13-18-2-27Z" fill="#aa8c74"/>
                   <path d="M324 252c0-6 16-6 16 0 0 5-4 10-8 10s-8-5-8-10Z" fill="#44352f"/>
                   <path d="M332 262v5q-5 6-12 1" fill="none" stroke="#44352f" stroke-width="2.5"/>
-                  <path d="M322 275v4q0 7 7 5l3-9" fill="#e5a0a0"/><use class="graduation-cap" href="#graduation-cap-art" transform="translate(136 152) scale(.64 .52)"/>
+                  <path d="M322 275v4q0 7 7 5l3-9" fill="#e5a0a0"/><g class="santa-art" transform="translate(136 152) scale(.64 .52)"><path d="M128 100q22-90 95-66l44 50-32-8-29-26-15 50Z" fill="#c66a60" stroke="#9d514b" stroke-width="3"/><path d="M124 94q78-15 152 0v20q-78-14-152 0Z" fill="#fff3df"/><circle cx="265" cy="84" r="14" fill="#fff3df"/></g><circle class="rudolph-art" cx="333" cy="254" r="10" fill="#d9655b"/><use class="graduation-cap" href="#graduation-cap-art" transform="translate(136 152) scale(.64 .52)"/>
                 </g>
               </g>
               <path class="leash-rope" d="M286 297Q365 298 359 160T365 98" fill="none" stroke-width="5"/>
@@ -205,7 +205,11 @@
       <p id="journey-note" class="journey-note">한 번씩 완성하며 특별한 옷을 모아보세요.</p><div id="collection-list" class="collection-list" hidden></div><div id="quest-list" class="quest-list"></div><div id="shop-categories" class="shop-categories" role="group" aria-label="상점 종류" hidden><button data-shop-category="outfit" aria-pressed="true">옷</button><button data-shop-category="toy" aria-pressed="false">장난감</button><button data-shop-category="furniture" aria-pressed="false">가구</button></div><div id="wardrobe-list" class="wardrobe-list" hidden></div>
     </section>
 </section>
-  </main>
+  <section id="christmas-panel" role="tabpanel" aria-labelledby="main-tab-christmas" hidden><div class="christmas-layout">
+ <section class="christmas-card"><h2>퍼그의 작은 크리스마스</h2><p id="christmas-status"></p><div id="christmas-tree" class="christmas-tree"></div><p id="christmas-count"></p><progress id="christmas-progress" max="30" value="0" aria-label="트리 완성도"></progress><p id="christmas-stages"></p><p>산책 30초마다 35% 확률로 장식을 발견해요. 하루 최대 6개.</p><button id="christmas-place" type="button">완성한 트리 방에 놓기</button></section>
+ <section class="christmas-card"><h2>하루 한 번, 작은 선물</h2><p id="christmas-attendance"></p><p>연속 출석이 아니어도 괜찮아요.</p><div id="christmas-rewards" class="christmas-rewards"></div></section>
+ <section class="christmas-card christmas-game"><h2>썰매에 선물을 쏙!</h2><p id="christmas-gift-count"></p><div id="christmas-arena" class="christmas-arena" aria-hidden="true"><div class="christmas-target"></div><span id="christmas-sleigh" class="christmas-sleigh">🛷</span><span class="christmas-present">🎁</span></div><div class="christmas-buttons"><button id="christmas-gift-start" type="button">시작</button><button id="christmas-throw" type="button">선물 던지기</button></div><p id="christmas-result" role="status" aria-live="polite"></p></section>
+ </div></section></main>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden><span id="toast-message"></span> <button id="retry-action" hidden>저장 확인 / 다시 시도</button></div>
   <dialog id="name-dialog" aria-labelledby="name-title"><div class="dialog-inner"><span class="dialog-paw">◕ ᴥ ◕</span><h2 id="name-title">퍼그 이름</h2><p id="name-description">이름을 지어주세요.</p><form id="name-form"><label for="name-input">퍼그 이름</label><input id="name-input" name="name" maxlength="24" autocomplete="off" placeholder="예: 두부, 모찌, 콩이" required><p class="form-hint">1~12자</p><button class="solid-button" type="submit">시작하기</button></form><p id="name-error" class="error-text" role="alert"></p><button id="restore-first" class="text-button">기존 퍼그 불러오기</button></div></dialog>
   <dialog id="save-dialog" aria-labelledby="save-title"><div class="dialog-inner"><button class="close-dialog" aria-label="닫기">×</button><h2 id="save-title">저장 / 불러오기</h2><p id="storage-explanation">진행은 서버에 자동으로 저장돼요.</p><div class="save-explanation">같은 브라우저에서는 바로 이어 할 수 있어요. 다른 기기로 옮기거나 쿠키를 지울 때는 복구 코드가 필요해요. 코드는 비밀번호처럼 보관해주세요.</div><button id="show-code" class="outline-button">내 복구 코드 확인</button><div id="code-box" hidden><textarea id="recovery-code" readonly aria-label="내 복구 코드" rows="3"></textarea><button id="copy-code" class="text-button">코드 복사 ↗</button></div><hr><form id="restore-form"><label for="restore-code">저장한 퍼그 불러오기</label><input id="restore-code" placeholder="64자리 복구 코드 붙여넣기" autocomplete="off" required><p class="form-hint">현재 연결을 바꿔요. 현재 퍼그의 코드도 먼저 보관해주세요.</p><button class="solid-button" type="submit">이어서 함께하기</button></form><p id="restore-error" class="error-text" role="alert"></p></div></dialog>
@@ -222,29 +226,5 @@ look up 찾다, 바라보다</pre><p class="study-note">첫 탭 뒤는 모두 �
   </div></dialog>
   <dialog id="vocab-edit-dialog" aria-labelledby="vocab-edit-title"><div class="dialog-inner"><button class="close-dialog" data-close-study-dialog="vocab-edit-dialog" aria-label="단어 수정 닫기">×</button><h2 id="vocab-edit-title">단어 수정</h2><p class="study-dialog-error error-text" role="alert"></p><button data-study-retry class="text-button" hidden>저장 확인 / 다시 시도</button><form id="vocab-edit-form" class="vocab-edit-form"><label for="vocab-term">단어</label><input id="vocab-term" required dir="auto"><label for="vocab-answer">뜻</label><input id="vocab-answer" required dir="auto"><button id="vocab-edit-save" class="solid-button">저장하기</button></form></div></dialog>
   <dialog id="vocab-delete-dialog" aria-labelledby="vocab-delete-title"><div class="dialog-inner"><h2 id="vocab-delete-title">이 단어를 지울까요?</h2><p class="study-dialog-error error-text" role="alert"></p><button data-study-retry class="text-button" hidden>저장 확인 / 다시 시도</button><p id="vocab-delete-word"></p><button id="vocab-delete-confirm" class="solid-button">삭제하기</button><button data-close-study-dialog="vocab-delete-dialog" class="text-button">취소</button></div></dialog>
-  <dialog id="update-notice" aria-labelledby="update-notice-title">
-    <div class="dialog-inner">
-      <h2 id="update-notice-title">🎄 퍼그의 작은 크리스마스</h2>
-  
-      <p>12월 31일까지 퍼그와 크리스마스를 준비해요!</p>
-      <ul>
-        <li>산책에서 장식을 모아 트리를 완성해요.</li>
-        <li>완성한 트리는 퍼그의 방에 놓을 수 있어요.</li>
-        <li>출석하고 산타 모자·크리스마스 옷·루돌프 코를 받아요.</li>
-        <li>선물 던지기 미니게임에서 비스킷을 모아요.</li>
-      </ul>
-      <p>받은 선물과 트리는 이벤트가 끝나도 남아요.</p>
-  
-      <form method="dialog">
-        <p>
-          <label>
-            <input id="update-notice-hide" type="checkbox">
-            이 공지 다시 안 보기
-          </label>
-        </p>
-        <button type="submit">확인</button>
-      </form>
-    </div>
-  </dialog>
 </body>
 </html>
