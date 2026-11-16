@@ -23,7 +23,7 @@ test('HTTP upload → match → pause → restore persists vocabulary and knowle
   }
   try {
     await call('init'); await call('name', { name: '책모찌' });
-    const text = Array.from({ length: 300 }, (_, i) => `단어${i}, 의미${i}`).join('\n');
+    const text = Array.from({ length: 300 }, (_, i) => `단어${i}\t의미${i}`).join('\n');
     assert.ok(Buffer.byteLength(text) > 4096);
     const upload = await call('vocab_upload', { text });
     assert.equal(upload.status, 200); assert.equal(upload.state.study.words.length, 300);

@@ -13,7 +13,7 @@ test('knowledge quests require server milestones, respect fractional progress an
   assert.deepEqual(q.map(q => q.target), [10, 30, 60, 100]);
   assert.equal(q[1].value, 29.5);
   assert.throws(() => act(s, 'claim_quest', T + 1000, { quest: 'knowledge-30', knowledge: 100 }), /아직/);
-  s = act(s, 'vocab_upload', T + 2000, { text: 'apple 사과' });
+  s = act(s, 'vocab_upload', T + 2000, { text: 'apple\t사과' });
   s = act(s, 'study_start', T + 3000, { target: 1 });
   const id = s.study.session.left[0];
   s = act(s, 'study_match', T + 4000, { sessionId: s.study.session.id, wordId: id, answerId: id });
