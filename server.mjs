@@ -17,6 +17,8 @@ allowed.set('/navigation.js', ['navigation.js', 'text/javascript']);
 allowed.set('/study.js', ['study.js', 'text/javascript']);
 allowed.set('/study.css', ['study.css', 'text/css']);
 allowed.set('/words-example.txt', ['words-example.txt', 'text/plain']);
+allowed.set('/christmas.js', ['christmas.js', 'text/javascript']);
+allowed.set('/christmas.css', ['christmas.css', 'text/css']);
 createServer(async (req, res) => {
   for (const h of config.headers[0].headers) res.setHeader(h.key, h.value);
   const path = new URL(req.url, 'http://localhost').pathname;
