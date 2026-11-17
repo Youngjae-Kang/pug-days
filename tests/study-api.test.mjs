@@ -30,7 +30,7 @@ test('HTTP upload → match → pause → restore persists vocabulary and knowle
     const started = await call('study_start', { target: 6 });
     const session = started.state.study.session, wordId = session.left[0];
     const match = await call('study_match', { sessionId: session.id, wordId, answerId: wordId });
-    assert.equal(match.state.study.knowledge, .5); assert.equal(match.state.study.session.left.length, 4);
+    assert.equal(match.state.study.knowledge, .5); assert.equal(match.state.study.session.left.length, 3);
     await call('study_pause', { sessionId: session.id });
     const { recoveryCode } = await call('backup');
     cookie = '';

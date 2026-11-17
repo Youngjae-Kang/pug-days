@@ -9,7 +9,10 @@ function action(type, now, data = {}) { return { type, id: randomUUID(), sentAt:
 function act(s, type, now = T + 1000, data = {}) { return transition(s, action(type, now, data), now).state; }
 test('knowledge quests require server milestones, respect fractional progress and grant a hat at 30', () => {
   let s = named(29.5); s = transition(s, { type: 'refresh' }, T).state;
-  const q = publicState(s, T).quests.filter(q => q.category === 'study');
+  const studyQuests = publicState(s, T).quests.filter(q => q.category === 'study');
+  const q = studyQuests.filter(q => q.id.startsWith('knowledge-'));
+  const snacker = studyQuests.find(q => q.id === 'study-snacker-100');
+  assert.equal(snacker.target, 100); assert.equal(snacker.value, 0); assert.equal(snacker.reward, 15);
   assert.deepEqual(q.map(q => q.target), [10, 30, 60, 100]);
   assert.equal(q[1].value, 29.5);
   assert.throws(() => act(s, 'claim_quest', T + 1000, { quest: 'knowledge-30', knowledge: 100 }), /아직/);

@@ -54,7 +54,7 @@ test('append skips duplicates; editing and deleting persist with no ID collision
   f.step('vocab_delete', { wordId: id }); assert.equal(f.state.study.words.length, 8);
   assert.ok(!f.state.study.words.some(w => w.term === 'pomme'));
 });
-test('four pairs refill until the exact distinct-word goal, with no credit for wrong answers', () => {
+test('a batch refills only after every pair is matched, with no credit for wrong answers', () => {
   const f = fixture(); f.step('study_start', { target: 7 });
   const session = f.state.study.session;
   assert.equal(session.left.length, 4); assert.equal(session.right.length, 4);
@@ -64,8 +64,8 @@ test('four pairs refill until the exact distinct-word goal, with no credit for w
   const seen = new Set();
   for (let i = 0; i < 7; i++) {
     seen.add(f.state.study.session.left[0]); correct(f);
-    assert.equal(f.state.study.session.left.length, Math.min(4, 6 - i));
-    assert.equal(f.state.study.session.right.length, Math.min(4, 6 - i));
+    assert.equal(f.state.study.session.left.length, [3, 2, 1, 3, 2, 1, 0][i]);
+    assert.equal(f.state.study.session.right.length, [3, 2, 1, 3, 2, 1, 0][i]);
   }
   assert.equal(seen.size, 7); assert.equal(f.state.study.knowledge, 3.5);
   assert.equal(f.state.study.session.status, 'completed');
