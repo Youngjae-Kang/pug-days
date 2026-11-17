@@ -21,6 +21,7 @@ function renderStudy() {
   $('study-target').max = Math.max(1, study.words.length);
   if (study.words.length && document.activeElement !== $('study-target') && Number($('study-target').value) > study.words.length) $('study-target').value = Math.min(20, study.words.length);
   $('study-target').disabled = blocked || !study.words.length;
+  $('study-batch-size').disabled = blocked || !study.words.length;
   $('study-start').disabled = blocked || !study.words.length || Boolean(state.activity);
   $('study-availability').textContent = state.activity ? '지금 하는 활동을 마치고 공부를 시작해요.' : '';
   $('study-wordbook').disabled = blocked;
@@ -155,7 +156,7 @@ function initStudy() {
   });
   $('study-start-form').addEventListener('submit', async event => {
     event.preventDefault(); $('study-feedback').textContent = '';
-    await act({ type: 'study_start', target: Number($('study-target').value) });
+    await act({ type: 'study_start', target: Number($('study-target').value), batchSize: Number($('study-batch-size').value) });
   });
   $('study-pause').addEventListener('click', () => act({ type: state.study.session.status === 'paused' ? 'study_resume' : 'study_pause', sessionId: state.study.session.id }));
   $('study-stop').addEventListener('click', () => act({ type: 'study_stop', sessionId: state.study.session.id }));
