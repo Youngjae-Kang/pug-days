@@ -1,4 +1,72 @@
 let studySelectedWord = null, studySelectedAnswer = null, studyBoardKey = '', vocabularyPage = 0;
+let studyMode = 'match', wrongPage = 0, reviewCardKey = '', reviewRevealed = false;
+function renderWrongReview() {
+  const study = state.study, session = study.session, open = isStudying();
+  if (open) studyMode = session.mode === 'review' ? 'review' : 'match';
+  const blocked = busy || Boolean(pendingAction) || !state.name;
+  const entries = [...(study.wrongWords || [])].sort((a, b) => a.dueAt - b.dueAt);
+  const now = Date.now() + clockOffset;
+  const due = entries.filter(w => w.dueAt <= now).length;
+  for (const mode of ['match', 'review']) {
+    $('study-mode-' + mode).setAttribute('aria-pressed', String(studyMode === mode));
+    $('study-mode-' + mode).disabled = blocked || open;
+  }
+  $('study-match-setup').hidden = studyMode !== 'match';
+  document.querySelector('.study-rules').hidden = studyMode !== 'match';
+  $('wrong-review-panel').hidden = studyMode !== 'review' || open;
+  $('study-mode-review').textContent = `오답·복습${due ? ` · ${due}` : ''}`;
+  $('review-summary').textContent = entries.length ? `오답 ${entries.length}개 · 지금 복습 ${due}개` : '앞으로 틀린 단어가 여기에 모여요.';
+  $('review-start').disabled = blocked || open || !due || Boolean(state.activity);
+  $('wrong-download').disabled = blocked || !entries.length;
+  const pages = Math.max(1, Math.ceil(entries.length / 20));
+  wrongPage = Math.min(wrongPage, pages - 1);
+  $('wrong-page').textContent = `${wrongPage + 1} / ${pages}`;
+  $('wrong-prev').disabled = wrongPage === 0;
+  $('wrong-next').disabled = wrongPage === pages - 1;
+  $('wrong-list').replaceChildren();
+  for (const entry of entries.slice(wrongPage * 20, wrongPage * 20 + 20)) {
+    const row = studyNode('div', 'wrong-row');
+    const term = studyNode('span', '', entry.term), answer = studyNode('span', '', entry.answer);
+    term.dir = answer.dir = 'auto';
+    const date = new Date(entry.dueAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    row.append(term, answer, studyNode('small', '', `${entry.mistakes}회 오답 · ${entry.dueAt <= now ? '복습할 시간' : date + ' 복습 (한국 시간)'}`));
+    $('wrong-list').append(row);
+  }
+  const active = session?.mode === 'review' && session.status === 'active';
+  $('review-card').hidden = !active;
+  const key = JSON.stringify([session?.id, session?.left?.[0], session?.status]);
+  if (key !== reviewCardKey) { reviewCardKey = key; reviewRevealed = false; }
+  if (active) {
+    const entry = entries.find(w => w.id === session.left[0]);
+    $('review-term').textContent = entry?.term || '';
+    $('review-answer').textContent = reviewRevealed ? entry?.answer || '' : '';
+  }
+  $('review-answer').hidden = !reviewRevealed;
+  $('review-grades').hidden = !reviewRevealed;
+  $('review-reveal').hidden = reviewRevealed;
+  for (const id of ['review-reveal', 'review-again', 'review-remember']) $(id).disabled = blocked;
+}
+function initWrongReview() {
+  for (const mode of ['match', 'review']) $('study-mode-' + mode).addEventListener('click', () => { studyMode = mode; renderStudy(); });
+  $('wrong-prev').addEventListener('click', () => { wrongPage--; renderWrongReview(); });
+  $('wrong-next').addEventListener('click', () => { wrongPage++; renderWrongReview(); });
+  $('review-start').addEventListener('click', () => act({ type: 'study_review_start' }));
+  $('review-reveal').addEventListener('click', () => { reviewRevealed = true; renderWrongReview(); });
+  for (const [id, remembered] of [['review-again', false], ['review-remember', true]]) $(id).addEventListener('click', () => {
+    if (!reviewRevealed || busy || pendingAction) return;
+    const session = state.study.session;
+    act({ type: 'study_review_grade', sessionId: session.id, wordId: session.left[0], remembered });
+  });
+  $('wrong-download').addEventListener('click', () => {
+    // Quote fields so literal quotation marks also round-trip through the TXT importer.
+    const quote = text => '"' + text.replaceAll('"', '""') + '"';
+    const text = state.study.wrongWords.map(w => `${quote(w.term)}\t${quote(w.answer)}`).join('\r\n');
+    const url = URL.createObjectURL(new Blob(['\uFEFF', text, '\r\n'], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a'); link.href = url; link.download = '퍼그-오답노트.txt';
+    document.body.append(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+}
 function isStudying() { return ['active', 'paused'].includes(state?.study?.session?.status); }
 function studyNode(tag, className, text) {
   const node = document.createElement(tag); node.className = className;
@@ -7,6 +75,7 @@ function studyNode(tag, className, text) {
 }
 function renderStudy() {
   if (!state?.study) return;
+  renderWrongReview();
   const study = state.study, session = study.session, open = isStudying();
   const blocked = busy || Boolean(pendingAction) || !state.name;
   $('knowledge-value').textContent = `${study.knowledge} / 100`;
@@ -16,13 +85,19 @@ function renderStudy() {
   $('study').classList.toggle('studying-now', session?.status === 'active');
   $('study-wordbook').textContent = `단어장 · ${study.words.length}개`;
   $('study-start-form').hidden = open;
-  $('study-session').hidden = !session;
-  $('study-empty').hidden = study.words.length > 0;
-  $('study-target').max = Math.max(1, study.words.length);
-  if (study.words.length && document.activeElement !== $('study-target') && Number($('study-target').value) > study.words.length) $('study-target').value = Math.min(20, study.words.length);
-  $('study-target').disabled = blocked || !study.words.length;
-  $('study-batch-size').disabled = blocked || !study.words.length;
-  $('study-start').disabled = blocked || !study.words.length || Boolean(state.activity);
+  $('study-session').hidden = !session || (session.mode || 'match') !== studyMode;
+  if (open && session.mode !== 'review') $('study-source').value = session.source || 'all';
+  const source = $('study-source').value, available = source === 'wrong' ? study.wrongWords.length : study.words.length;
+  $('study-source').options[0].textContent = '전체 단어 · ' + study.words.length + '개';
+  $('study-source').options[1].textContent = '저장된 오답 단어 · ' + study.wrongWords.length + '개';
+  $('study-source').disabled = blocked || open;
+  $('study-empty').hidden = available > 0;
+  $('study-empty').textContent = source === 'wrong' ? '아직 저장된 오답 단어가 없어요. 전체 단어로 먼저 공부해보세요.' : '단어장에 TXT 파일을 올리고 시작해요. 어떤 언어든 좋아요.';
+  $('study-target').max = Math.max(1, available);
+  if (available && document.activeElement !== $('study-target') && Number($('study-target').value) > available) $('study-target').value = Math.min(20, available);
+  $('study-target').disabled = blocked || !available;
+  $('study-batch-size').disabled = blocked || !available;
+  $('study-start').disabled = blocked || !available || Boolean(state.activity);
   $('study-availability').textContent = state.activity ? '지금 하는 활동을 마치고 공부를 시작해요.' : '';
   $('study-wordbook').disabled = blocked;
   $('study-pause').hidden = !open;
@@ -31,20 +106,20 @@ function renderStudy() {
   $('study-stop').disabled = blocked;
   $('study-pause').textContent = session?.status === 'paused' ? '계속하기' : '일시정지';
   $('study-paused').hidden = session?.status !== 'paused';
-  $('study-board').hidden = session?.status !== 'active';
+  $('study-board').hidden = session?.status !== 'active' || session?.mode === 'review';
   if (session) {
     $('study-progress').max = session.target;
     $('study-progress').value = session.completed;
     $('study-count').textContent = `${session.completed} / ${session.target}개`;
-    $('study-result').textContent = session.status === 'completed' ? '목표 달성! 퍼그와 한 뼘 더 똑똑해졌어요.' : session.status === 'stopped' ? '공부를 마쳤어요. 맞힌 단어와 지식은 저장했어요.' : '';
+    $('study-result').textContent = session.status === 'completed' ? (session.mode === 'review' ? '복습 끝! 다음 복습 날짜를 저장했어요.' : '목표 달성! 퍼그와 한 뼘 더 똑똑해졌어요.') : session.status === 'stopped' ? '공부를 마쳤어요. 맞힌 단어와 지식은 저장했어요.' : '';
   }
   const key = JSON.stringify([session?.id, session?.left, session?.right, session?.status]);
   if (key !== studyBoardKey) {
     studyBoardKey = key; studySelectedWord = null; studySelectedAnswer = null;
     $('study-feedback').textContent = '';
     $('study-words').replaceChildren(); $('study-answers').replaceChildren();
-    if (session?.status === 'active') {
-      const words = new Map(study.words.map(w => [w.id, w]));
+    if (session?.status === 'active' && session.mode !== 'review') {
+      const words = new Map((session.source === 'wrong' ? study.wrongWords : study.words).map(w => [w.id, w]));
       for (const side of ['left', 'right']) {
         for (const id of session[side]) {
           const word = words.get(id);
@@ -113,6 +188,8 @@ function renderVocabulary() {
   }
 }
 function initStudy() {
+  initWrongReview();
+  $('study-source').addEventListener('change', () => renderStudy());
   for (const button of document.querySelectorAll('[data-study-retry]')) button.addEventListener('click', async () => {
     if (await act(pendingAction)) {
       $('vocab-edit-dialog').close(); $('vocab-delete-dialog').close();
@@ -156,7 +233,7 @@ function initStudy() {
   });
   $('study-start-form').addEventListener('submit', async event => {
     event.preventDefault(); $('study-feedback').textContent = '';
-    await act({ type: 'study_start', target: Number($('study-target').value), batchSize: Number($('study-batch-size').value) });
+    await act({ type: 'study_start', source: $('study-source').value, target: Number($('study-target').value), batchSize: Number($('study-batch-size').value) });
   });
   $('study-pause').addEventListener('click', () => act({ type: state.study.session.status === 'paused' ? 'study_resume' : 'study_pause', sessionId: state.study.session.id }));
   $('study-stop').addEventListener('click', () => act({ type: 'study_stop', sessionId: state.study.session.id }));

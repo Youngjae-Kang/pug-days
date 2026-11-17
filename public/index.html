@@ -186,13 +186,23 @@
 </section>
 <section id="study-panel" role="tabpanel" aria-labelledby="main-tab-study" hidden>    <section class="card study-section" id="study" aria-labelledby="study-title">
       <div class="study-heading"><div class="study-title-group"><svg class="study-buddy" viewBox="65 25 270 295" aria-label="안경 쓴 공부 친구 퍼그" role="img"><g class="study-buddy-head"><use href="#study-face-art"/><g fill="none" stroke="#8b7f6c" stroke-width="5"><circle cx="147" cy="188" r="33"/><circle cx="253" cy="188" r="33"/><path d="M180 188q20-12 40 0"/></g></g><path d="M100 276q50-16 100 0 50-16 100 0v35q-50-14-100 0-50-14-100 0Z" fill="#e0b087" stroke="#b98a68" stroke-width="3"/><path d="M200 277v34" stroke="#b98a68" stroke-width="3"/></svg><div><h2 id="study-title">퍼그와 단어 공부</h2><span id="study-buddy-status" class="study-buddy-status">함께 똑똑해지자!</span></div></div><div class="study-heading-actions"><button id="study-quests" type="button">공부 퀘스트</button><button id="study-wordbook" type="button" disabled>단어장 · 0개</button></div></div>
+      <div class="review-tabs" role="group" aria-label="학습 방식"><button type="button" id="study-mode-match" aria-pressed="true">단어 매칭</button><button type="button" id="study-mode-review" aria-pressed="false">오답·복습</button></div>
+      <div id="wrong-review-panel" hidden>
+        <div class="review-toolbar"><span id="review-summary" role="status"></span><button type="button" id="review-start" class="solid-button">복습 시작</button><button type="button" id="wrong-download">TXT 다운로드</button></div>
+        <p class="study-note">1일 → 3일 → 7일 → 14일 → 30일 간격으로 복습해요. 다시 틀리면 1일 뒤부터 시작해요.</p>
+        <div id="wrong-list" class="vocab-list"></div>
+        <div class="vocab-pages"><button type="button" id="wrong-prev">이전</button><span id="wrong-page"></span><button type="button" id="wrong-next">다음</button></div>
+      </div>
+      <div id="study-match-setup">
       <p id="study-empty" class="study-note">단어장에 TXT 파일을 올리고 시작해요. 어떤 언어든 좋아요.</p>
-      <form id="study-start-form" class="study-start-form"><label for="study-target">오늘 외울 단어 수<input id="study-target" type="number" min="1" max="1000" step="1" value="20" required></label><label for="study-batch-size">한 번에 볼 쌍<input id="study-batch-size" type="number" min="2" max="12" step="1" value="4" required></label><button id="study-start" class="solid-button" disabled>함께 공부하기</button></form>
+      <form id="study-start-form" class="study-start-form"><label for="study-source">공부할 단어<select id="study-source"><option value="all">전체 단어</option><option value="wrong">저장된 오답 단어</option></select></label><label for="study-target">오늘 외울 단어 수<input id="study-target" type="number" min="1" max="1000" step="1" value="20" required></label><label for="study-batch-size">한 번에 볼 쌍<input id="study-batch-size" type="number" min="2" max="12" step="1" value="4" required></label><button id="study-start" class="solid-button" disabled>함께 공부하기</button></form>
       <p id="study-availability" class="study-note"></p>
+      </div>
       <div id="study-session" class="study-session" hidden>
         <div class="study-session-top"><strong id="study-count">0 / 0개</strong><div><button id="study-pause" class="text-button">일시정지</button><button id="study-stop" class="text-button">그만두기</button></div></div>
         <progress id="study-progress" max="1" value="0" aria-label="단어 공부 진행"></progress>
         <div id="study-board" class="study-board" hidden><div><h3>단어</h3><div id="study-words" class="study-card-column"></div></div><div><h3>뜻</h3><div id="study-answers" class="study-card-column study-answers"></div></div></div>
+        <div id="review-card" class="review-card" hidden><strong id="review-term" dir="auto"></strong><p id="review-answer" dir="auto" hidden></p><button type="button" id="review-reveal">뜻 보기</button><div id="review-grades" hidden><button type="button" id="review-again">다시 볼래요</button><button type="button" id="review-remember" class="solid-button">기억나요</button></div><p class="study-note">뜻을 떠올린 뒤 직접 골라주세요. 복습은 지식 점수에 더해지지 않아요.</p></div>
         <div id="study-paused" class="study-paused" hidden>잠깐 쉬어도 괜찮아. 기다릴게 ♡</div>
         <p id="study-result" class="study-result" role="status"></p><p id="study-feedback" class="study-feedback" role="status" aria-live="polite"></p>
       </div>
