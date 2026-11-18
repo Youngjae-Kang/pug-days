@@ -1,0 +1,71 @@
+/* 독립 훈련 탭: 돌보기 SVG와 옷장 상태를 그대로 공유합니다. */
+#training-panel{max-width:1100px;margin:0 auto 34px}
+.training-page-heading{margin:13px 0 16px}
+.training-page-heading h2{font:30px PugJua,sans-serif;margin:0 0 8px;color:#4b5944}
+.training-page-heading p,.training-description{font-size:12px;color:#8d937d;margin:0;line-height:1.65}
+.training-modes{display:flex;gap:9px;margin:16px 0}
+.training-modes button{border:1px solid #dcded1;border-radius:14px;background:#faf9f3;padding:12px 22px;font:16px PugJua,sans-serif;color:#89907d}
+.training-modes button[aria-pressed=true]{background:#e4ecd9;border-color:#adbea0;color:#536b4d}
+.runner-card{padding:24px 26px}
+.runner-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:17px}
+.runner-heading h2{font-size:21px;margin:0 0 6px}
+.runner-heading p{font-size:11px;color:#89917d;line-height:1.7;margin:0}
+.runner-metrics{display:flex;gap:8px;flex-wrap:wrap}
+.runner-metrics>span{display:grid;gap:5px;text-align:center;border:1px solid #e0e6d7;background:#f3f6ed;border-radius:11px;min-width:86px;padding:9px 12px;font-size:10px;color:#77866b}
+.runner-metrics strong{font-size:20px;color:#566e4b;font-variant-numeric:tabular-nums;font-family:PugJua,sans-serif;font-weight:400}
+.runner-arena{--runner-ground:52px;position:relative;overflow:hidden;isolation:isolate;touch-action:manipulation;user-select:none;height:295px;border-radius:17px;border:1px solid #cedbcd;background:linear-gradient(#dcefe9 0%,#eaf2e6 72%,#c9dbb0 72%);cursor:pointer}
+.runner-sun{position:absolute;right:13%;top:28px;width:45px;height:45px;border-radius:50%;background:#f4dfa0;opacity:.85}
+.runner-cloud{position:absolute;top:44px;width:100px;height:24px;border-radius:50%;background:#fffdf3bb}
+.runner-cloud:before,.runner-cloud:after{content:'';position:absolute;border-radius:50%;background:inherit;width:48px;height:34px;bottom:0;left:17px}
+.runner-cloud:after{width:42px;height:28px;left:46px}
+.runner-cloud.cloud-one{left:18%}.runner-cloud.cloud-two{left:58%;top:86px;transform:scale(.65)}
+.runner-hills{position:absolute;inset:auto 0 var(--runner-ground);height:92px;background:radial-gradient(ellipse 210px 85px at 13% 100%,#b7d0a4 99%,transparent 100%),radial-gradient(ellipse 200px 88px at 58% 100%,#b9d4aa 99%,transparent 100%),radial-gradient(ellipse 200px 70px at 98% 100%,#b4cda1 99%,transparent 100%)}
+.runner-ground{position:absolute;inset:auto 0 0;height:var(--runner-ground);border-top:5px solid #92b18a;background:#e7d9b6;background-image:repeating-linear-gradient(90deg,transparent 0 48px,#d8c59e 48px 51px,transparent 51px 97px)}
+.runner-arena[data-phase=running] .runner-ground{animation:runner-ground-move var(--runner-ground-duration,.6s) linear infinite}
+@keyframes runner-ground-move{to{background-position:-100px 0}}
+.runner-pet-stage{position:absolute;left:clamp(18px, 11%, 90px);bottom:calc(var(--runner-ground) - 14px);width:196px;height:150px;z-index:3;transform:translate3d(0, var(--runner-jump,0px),0);pointer-events:none}
+.runner-pet-stage .pose-walk{display:block}
+.runner-pet-stage .runner-pug{overflow:visible;width:100%;height:100%}
+.runner-pet-stage .walk-dog{animation-name:run-body-bob}
+.runner-pet-stage .leg{animation-name:run-stride}
+.runner-pet-stage .walking-tail{animation-duration:.2s}
+.runner-pet-stage.in-air .walk-dog{animation-play-state:paused}
+.runner-arena:not([data-phase=running]) .runner-pet-stage .walk-dog,.runner-arena:not([data-phase=running]) .runner-pet-stage .leg,.runner-arena:not([data-phase=running]) .runner-pet-stage .walking-tail,.runner-arena:not([data-phase=running]) .runner-pet-stage .walk-head{animation-play-state:paused}
+.runner-obstacles{position:absolute;inset:0;pointer-events:none;z-index:4}
+.runner-hurdle{position:absolute;bottom:var(--runner-ground);left:0;border-radius:5px 5px 2px 2px;background:linear-gradient(90deg,#b18a65 0 6px,#d9b18a 6px 24px,#b18a65 24px 100%);border:2px solid #926d4e;box-shadow:inset 0 8px #e7c79f}
+.runner-hurdle:before{content:'';position:absolute;left:-6px;right:-6px;top:12px;height:10px;border-radius:3px;background:#cf9c6e;border:2px solid #916c4c}
+.runner-overlay{position:absolute;z-index:6;top:18px;left:50%;transform:translateX(-50%);display:grid;gap:7px;text-align:center;border:1px solid #d9e5d2;border-radius:13px;background:#fffdf2f2;padding:12px 18px;min-width:min(80%,300px);max-width:85%;box-shadow:0 3px 14px #536c511c;pointer-events:none}
+.runner-overlay strong{font:19px PugJua,sans-serif;color:#547250}.runner-overlay span{font-size:10px;line-height:1.6;color:#778a6f}
+.runner-controls{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:16px}
+.runner-controls .solid-button{margin:0;width:auto;flex:0 0 auto;background:#789976;border-color:#789976;font:15px PugJua,sans-serif;padding:12px 22px}
+#runner-jump{flex:0 0 auto;border:1px solid #d7c3a4;border-radius:11px;background:#f8e9d1;color:#8a7050;padding:11px 18px;font:15px PugJua,sans-serif;touch-action:manipulation}
+#runner-jump span{font:10px system-ui,sans-serif;opacity:.8;margin-left:8px}
+#runner-status{margin:0;flex:1 1 210px;line-height:1.6;font-size:11px;color:#7a8574}
+.runner-note{font-size:10px;line-height:1.7;color:#9a9b8b;margin:14px 0 0}
+.training-practice{margin:0;padding:24px 26px}
+.training-practice .training-heading{flex-wrap:wrap;gap:12px}
+.training-practice .training-stats{margin:0}
+.training-demo{background:linear-gradient(#edf2e5 0 72%,#e6dac6 72%);border:1px solid #e0e7d8;border-radius:16px;position:relative;min-height:250px;margin:18px 0 0;overflow:hidden}
+.training-pet-stage{position:relative;left:auto;bottom:auto;transform:none;width:205px;height:204px;margin:10px auto 0}
+.training-pet-stage svg{width:100%;height:100%}
+.training-demo p{font:13px PugJua,sans-serif;color:#718565;text-align:center;margin:0 12px 12px;overflow-wrap:anywhere}
+.training-practice .tricks{margin-top:16px}
+@media(max-width:600px){
+  .training-page-heading h2{font-size:25px}
+  .training-modes button{flex:1;padding:11px 8px;font-size:14px}
+  .runner-card,.training-practice{padding:16px}
+  .runner-heading h2{font-size:19px}
+  .runner-heading p{font-size:10px}
+  .runner-metrics{width:100%;gap:5px}
+  .runner-metrics>span{min-width:0;flex:1;padding:8px 4px;font-size:9px}
+  .runner-metrics strong{font-size:18px}
+  .runner-arena{height:250px}
+  .runner-pet-stage{width:157px;height:122px;left:15px;bottom:calc(var(--runner-ground) - 11px)}
+  .runner-controls{gap:7px}
+  .runner-controls .solid-button,#runner-jump{flex:1 1 0;padding:12px 10px;font-size:14px}
+  #runner-status{flex-basis:100%;font-size:10px}
+  .training-practice .training-stats{width:auto}
+  .training-pet-stage{width:185px;height:184px}
+  .training-demo{min-height:232px}
+}
+@media(prefers-reduced-motion:reduce){.runner-arena .runner-ground{animation:none}}

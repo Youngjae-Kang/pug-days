@@ -120,7 +120,8 @@ function renderJourney() {
       if (ready) act({ type: 'claim_quest', quest: q.id, day: state.day });
       else {
         if (q.category === 'study') { showMainTab('study'); return; }
-        showMainTab('care');
+        showMainTab(q.id === 'practice' ? 'training' : 'care');
+        if (q.id === 'practice') window.pugRunner?.showMode('tricks');
         const selector = q.id.includes('focus') ? '.focus-card' : q.id === 'practice' ? '.training-section' : '.game-layout';
         document.querySelector(selector).scrollIntoView({ behavior: 'smooth', block: 'center' });
       }

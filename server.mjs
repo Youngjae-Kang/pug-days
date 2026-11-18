@@ -20,6 +20,8 @@ allowed.set('/study.css', ['study.css', 'text/css']);
 allowed.set('/words-example.txt', ['words-example.txt', 'text/plain']);
 allowed.set('/christmas.js', ['christmas.js', 'text/javascript']);
 allowed.set('/christmas.css', ['christmas.css', 'text/css']);
+allowed.set('/runner.js', ['runner.js', 'text/javascript']);
+allowed.set('/runner.css', ['runner.css', 'text/css']);
 allowed.set('/custom-shop.js', ['custom-shop.js', 'text/javascript']);
 allowed.set('/custom-shop.css', ['custom-shop.css', 'text/css']);
 // 퍼그 스튜디오: 이 컴퓨터의 로컬 서버에서만 열려요. Vercel에는 배포되지 않아요.

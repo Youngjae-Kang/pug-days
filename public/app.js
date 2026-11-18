@@ -133,6 +133,7 @@ function render() {
   updateEnergy();
   renderRoomItems();
   renderJourney();
+  window.pugRunner?.syncAppearance(state);
   renderChristmas();
   renderStudy();
   updateWalkEvent();
@@ -250,6 +251,7 @@ async function act(action) {
     pendingAction = null; accept(data);
     if (data.message) { $('speech').textContent = data.message.split(' 친밀도')[0]; toast(data.message); }
     animate(data.animation);
+    if (request.type === 'train' || request.type === 'perform') window.pugRunner?.showTrick(data.animation, data.message);
     if (request.type === 'start_focus' && focusing) updateFocusScene(true);
     if (walking) updateWalkEvent(true);
     $('name-error').textContent = '';
@@ -362,6 +364,7 @@ setInterval(() => {
   }
 }, 1000);
 initNavigation();
+initPugRunner();
 initJourney();
 initChristmas();
 initStudy();

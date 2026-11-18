@@ -1,4 +1,4 @@
-const mainTabs = ['care', 'study', 'journey', 'shop', 'christmas'];
+const mainTabs = ['care', 'training', 'study', 'journey', 'shop', 'christmas'];
 function showMainTab(tab, { updateUrl = true, focus = false } = {}) {
   if (!mainTabs.includes(tab)) tab = 'care';
   for (const name of mainTabs) {
@@ -7,6 +7,7 @@ function showMainTab(tab, { updateUrl = true, focus = false } = {}) {
     const button = document.getElementById(`main-tab-${name}`);
     button.setAttribute('aria-selected', String(active)); button.tabIndex = active ? 0 : -1;
   }
+  window.pugRunner?.onMainTabChange(tab);
   if (updateUrl && location.hash !== `#tab-${tab}`) history.pushState(null, '', `#tab-${tab}`);
   if (updateUrl) window.scrollTo({ top: 0, behavior: 'instant' });
   if (focus) document.getElementById(`main-tab-${tab}`).focus();
