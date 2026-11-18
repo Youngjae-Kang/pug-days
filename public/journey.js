@@ -35,7 +35,12 @@ function outfitIcon(outfit) {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '90 24 220 140');
     const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    use.setAttribute('href', '#graduation-cap-art'); svg.append(use); preview.append(svg);
+    if (outfit.id === 'santa') {
+      svg.setAttribute('viewBox', '90 10 220 130');
+      // 퍼그 얼굴 위에 실제로 사용되는 산타모자와 같은 형태예요.
+      svg.innerHTML = '<path d="M124 103 C134 65 151 27 185 22 C219 15 241 37 252 58 C260 72 269 79 270 85 L251 96 C241 83 232 70 222 60 C230 76 239 90 246 103 Z" fill="#c66a60" stroke="#9d514b" stroke-width="3"/><path d="M124 94q78-15 152 0v20q-78-14-152 0Z" fill="#fff3df" stroke="#dbcdb6" stroke-width="3"/><circle cx="265" cy="84" r="14" fill="#fff3df"/>';
+    } else { use.setAttribute('href', '#graduation-cap-art'); svg.append(use); }
+    preview.append(svg);
     return preview;
   }
   const shirt = journeyElement('div', 'mini-shirt', outfit.mark);
@@ -43,16 +48,23 @@ function outfitIcon(outfit) {
   if (outfit.custom) customShirtIcon(outfit, preview, shirt);
   return preview;
 }
-// 상점 '모자' 칸: 스튜디오에서 만든 모자를 사고 씌워요.
+// 상점 '모자' 칸: 비스킷 판매 모자와 퀘스트·이벤트 보상 모자를 모두 보여줘요.
+function hatIsReward(hat) { return hat.id === 'graduate' || hat.id === 'santa'; }
+function showHatRewardSource(hat) {
+  if (hat.id === 'santa') showMainTab('christmas');
+  else { journeyTab = 'study'; showMainTab('journey'); renderJourney(); }
+}
 function renderHatShop(blocked) {
   const p = state.progress;
-  for (const hat of state.hats.filter(h => h.price > 0 && (!h.hidden || p.ownedHats.includes(h.id))).sort((a, b) => a.price - b.price)) {
+  for (const hat of state.hats.filter(h => (!h.hidden || p.ownedHats.includes(h.id)) && (h.price > 0 || hatIsReward(h))).sort((a, b) => a.price - b.price)) {
     const owned = p.ownedHats.includes(hat.id), equipped = p.hat === hat.id, missing = Math.max(0, hat.price - p.biscuits);
     const card = journeyElement('article', `wardrobe-card${owned ? ' owned' : ''}${equipped ? ' equipped' : ''}`);
-    const button = journeyButton(equipped ? '모자 벗기' : owned ? '씌워주기' : `비스킷 ${hat.price}개`, `hat-${hat.id}`, () => {
-      act(owned ? { type: 'equip_hat', hat: equipped ? null : hat.id } : { type: 'buy_hat', hat: hat.id });
+    const button = journeyButton(equipped ? '모자 벗기' : owned ? '씌워주기' : !hat.price ? '보상 받으러 가기' : `비스킷 ${hat.price}개`, `hat-${hat.id}`, () => {
+      if (owned) act({ type: 'equip_hat', hat: equipped ? null : hat.id });
+      else if (hat.price) act({ type: 'buy_hat', hat: hat.id });
+      else showHatRewardSource(hat);
     }, blocked || (!owned && hat.price > p.biscuits));
-    card.append(journeyElement('span', 'wardrobe-status', equipped ? '착용 중' : owned ? '보유' : ''), outfitIcon(hat), journeyElement('h3', '', hat.name), journeyElement('p', 'price-hint', owned ? '' : missing ? `${missing}개 부족` : hat.source), button);
+    card.append(journeyElement('span', 'wardrobe-status', equipped ? '착용 중' : owned ? '보유' : ''), outfitIcon(hat), journeyElement('h3', '', hat.name), journeyElement('p', 'price-hint', owned ? '' : !hat.price ? hat.source : missing ? `${missing}개 부족` : hat.source), button);
     $('wardrobe-list').append(card);
   }
   if (!$('wardrobe-list').children.length) $('wardrobe-list').append(journeyElement('p', 'empty-shop', '아직 상점에 모자가 없어요.'));
@@ -137,12 +149,12 @@ function renderJourney() {
   if (shopCategory === 'hat') renderHatShop(blocked);
   else if (!showOutfits) renderItemShop(blocked);
   if (shopCategory === 'wardrobe') {
-    for (const hat of state.hats.filter(h => !h.price || p.ownedHats.includes(h.id))) {
+    for (const hat of state.hats.filter(h => (hatIsReward(h) || !h.price && !h.hidden) || p.ownedHats.includes(h.id))) {
       const owned = p.ownedHats.includes(hat.id), equipped = p.hat === hat.id;
       const card = journeyElement('article', `wardrobe-card${owned ? ' owned' : ''}${equipped ? ' equipped' : ''}`);
-      const button = journeyButton(equipped ? '모자 벗기' : owned ? '씌워주기' : '공부 퀘스트 보기', `hat-${hat.id}`, () => {
+      const button = journeyButton(equipped ? '모자 벗기' : owned ? '씌워주기' : hat.id === 'santa' ? '이벤트 보기' : '공부 퀘스트 보기', `hat-${hat.id}`, () => {
         if (owned) act({ type: 'equip_hat', hat: equipped ? null : hat.id });
-        else { journeyTab = 'study'; showMainTab('journey'); renderJourney(); }
+        else showHatRewardSource(hat);
       }, blocked);
       card.append(journeyElement('span', 'wardrobe-status', equipped ? '착용 중' : owned ? '보유' : ''), outfitIcon(hat), journeyElement('h3', '', hat.name), journeyElement('p', 'price-hint', owned ? '옷과 함께 착용할 수 있어요' : hat.source), button);
       $('wardrobe-list').append(card);

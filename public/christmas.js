@@ -18,7 +18,7 @@ function renderChristmas() {
   for (const [day,name,item] of rewards) {
     const card = document.createElement('article'), label = document.createElement('p'), button = document.createElement('button');
     const claimed = c.claimed.includes(day); label.textContent = `${day}일 · ${name}`;
-    button.textContent = !claimed ? '선물 받기' : !item ? '수령 완료' : item === 'christmas' ? (state.progress.equipped === item ? '벗기' : '입히기') : c.accessories.includes(item) ? '벗기' : '착용하기';
+    button.textContent = !claimed ? '선물 받기' : !item ? '수령 완료' : item === 'christmas' ? (state.progress.equipped === item ? '벗기' : '입히기') : (item === 'santa' ? state.progress.hat === 'santa' : c.accessories.includes(item)) ? '벗기' : '착용하기';
     button.disabled = blocked || (!claimed && c.attendance < day) || (claimed && !item);
     button.onclick = () => act(!claimed ? {type:'christmas_claim',day} : item === 'christmas' ? {type:'equip',outfit:state.progress.equipped === item ? null : item} : {type:'christmas_wear',item});
     card.append(label,button); $('christmas-rewards').append(card);
@@ -27,7 +27,7 @@ function renderChristmas() {
   $('christmas-gift-start').disabled = blocked || !c.active || c.giftsToday >= c.giftLimit || Boolean(c.challenge && Date.now()+clockOffset<c.challenge.expires);
   $('christmas-throw').disabled = blocked || !c.active || !c.challenge;
   for (const stage of [$('pet-stage'), document.querySelector('.study-buddy')]) {
-    stage.classList.toggle('christmas-santa', c.accessories.includes('santa'));
+    stage.classList.toggle('christmas-santa', state.progress.hat === 'santa');
     stage.classList.toggle('christmas-rudolph', c.accessories.includes('rudolph'));
   }
   let tree = $('christmas-home-tree');
