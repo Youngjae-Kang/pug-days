@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>퍼그 스튜디오</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/focus-scenes.css"><link rel="stylesheet" href="/room-items.css"><link rel="stylesheet" href="/rock.css"><link rel="stylesheet" href="/exploration.css"><link rel="stylesheet" href="/christmas.css"><link rel="stylesheet" href="/custom-shop.css">
+  <link rel="stylesheet" href="/studio/studio.css">
+  <script src="/custom-shop.js" defer></script><script src="/studio/studio.js" defer></script>
+</head>
+<body class="studio-body">
+  <header class="studio-top">
+    <div class="studio-brand"><span class="brand-mark">p.</span> 퍼그 스튜디오 <small>이 컴퓨터에서만 열려요</small></div>
+    <a class="studio-link" href="/#tab-shop" target="_blank" rel="noopener">게임 상점 열기 ↗</a>
+  </header>
+
+  <main class="studio">
+    <!-- 내 상품 목록 -->
+    <aside class="studio-panel studio-list">
+      <div class="panel-title"><h2>내 상품</h2><button id="new-item" class="studio-primary small" type="button">+ 새 상품</button></div>
+      <div class="filter-row" role="group" aria-label="종류 필터"><button data-filter="all" aria-pressed="true">전체</button><button data-filter="outfit" aria-pressed="false">옷</button><button data-filter="hat" aria-pressed="false">모자</button><button data-filter="toy" aria-pressed="false">장난감</button><button data-filter="furniture" aria-pressed="false">가구</button></div>
+      <ul id="item-list" class="item-list"></ul>
+      <p id="list-empty" class="studio-hint">아직 만든 상품이 없어요.<br>‘+ 새 상품’으로 시작해요.</p>
+      <div class="deploy-note"><strong>실제 사이트에 올리기</strong><p>저장하면 <code>public/shop/</code>, <code>lib/custom-shop.mjs</code>, <code>studio/designs/</code>가 바뀌어요. 이 변경을 GitHub에 올리면 Vercel이 자동으로 배포해요.</p></div>
+    </aside>
+
+    <!-- 디자인 -->
+    <section class="studio-panel studio-editor" aria-labelledby="editor-title">
+      <div class="panel-title"><h2 id="editor-title">디자인</h2><span id="dirty-mark" class="dirty-mark" hidden>저장 안 됨</span></div>
+      <div class="segmented" role="group" aria-label="상품 종류"><button data-kind="outfit" aria-pressed="true">옷</button><button data-kind="hat" aria-pressed="false">모자</button><button data-kind="toy" aria-pressed="false">장난감</button><button data-kind="furniture" aria-pressed="false">가구</button></div>
+      <div id="style-row" class="segmented style-row" role="group" aria-label="옷 스타일"><button data-style="pattern" aria-pressed="true">무늬 반복</button><button data-style="motif" aria-pressed="false">가운데 그림 하나</button></div>
+      <p id="kind-hint" class="studio-hint"></p>
+      <div id="layer-tabs" class="source-tabs" role="tablist" aria-label="그릴 부분"><button data-layer="main" role="tab" aria-selected="true">무늬</button><button data-layer="collar" role="tab" aria-selected="false" hidden>목 장식</button></div>
+
+      <div class="toolbar" role="toolbar" aria-label="그리기 도구">
+        <button data-tool="select" aria-pressed="true" title="선택·이동·크기 (V)">↖ 선택</button>
+        <button data-tool="brush" aria-pressed="false" title="붓 (B)">✎ 붓</button>
+        <button data-tool="line" aria-pressed="false" title="직선 (L)">╱ 선</button>
+        <span class="tool-sep"></span>
+        <button data-tool="ellipse" aria-pressed="false" title="동그라미 (O)">● 원</button>
+        <button data-tool="rect" aria-pressed="false" title="네모 (R)">■ 네모</button>
+        <button data-tool="heart" aria-pressed="false" title="하트 (H)">♥ 하트</button>
+        <button data-tool="star" aria-pressed="false" title="별 (S)">★ 별</button>
+        <button data-tool="triangle" aria-pressed="false" title="세모 (T)">▲ 세모</button>
+        <label class="tool-file" title="이미지 넣기">🖼 이미지<input id="image-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"></label>
+      </div>
+      <div class="canvas-wrap"><svg id="editor" xmlns="http://www.w3.org/2000/svg" aria-label="그림판"></svg></div>
+      <p id="canvas-tip" class="studio-hint canvas-tip"></p>
+
+      <div class="prop-row">
+        <label class="color-pick">색<input id="color" type="color" value="#e8a28f"></label>
+        <div id="palette" class="palette" role="group" aria-label="팔레트"></div>
+      </div>
+      <div class="prop-row">
+        <label class="check"><input id="outline" type="checkbox" checked> 외곽선</label>
+        <label class="mini-range">두께<input id="stroke-width" type="range" min="0.5" max="14" step="0.5" value="3"></label>
+        <label class="mini-range">회전<input id="rotation" type="range" min="-180" max="180" step="1" value="0"></label>
+      </div>
+      <div class="prop-row actions-row">
+        <button id="duplicate" type="button" title="복제 (Ctrl+D)">⧉ 복제</button>
+        <button id="mirror-copy" type="button" title="가운데 기준 반대편에 복사">⇋ 대칭 복사</button>
+        <button id="flip" type="button">↔ 뒤집기</button>
+        <button id="forward" type="button">앞으로</button><button id="backward" type="button">뒤로</button>
+        <button id="remove-el" type="button" class="danger-text" title="삭제 (Delete)">삭제</button>
+        <span class="tool-sep"></span>
+        <button id="undo" type="button" title="되돌리기 (Ctrl+Z)">↶</button><button id="redo" type="button" title="다시 하기 (Ctrl+Shift+Z)">↷</button><button id="clear" type="button">전체 지우기</button>
+      </div>
+    </section>
+
+    <!-- 미리보기 + 상품 정보 -->
+    <section class="studio-panel studio-detail" aria-labelledby="preview-title">
+      <div class="panel-title"><h2 id="preview-title">퍼그에게 적용해 보기</h2></div>
+      <div id="pose-preview" class="pose-row"></div>
+      <div id="room-preview" class="room-preview" hidden></div>
+      <div class="detail-grid">
+        <form id="item-form" class="item-form" autocomplete="off">
+          <label>이름<input id="f-name" maxlength="16" required placeholder="예: 딸기 멜빵 셔츠"></label>
+          <label>가격 (비스킷)<input id="f-price" type="number" min="1" max="9999" step="1" required value="50"></label>
+          <label>상품 코드 <small>영어 소문자·숫자·하이픈, 저장 후 변경 불가</small><input id="f-id" pattern="[a-z0-9][a-z0-9\-]{1,30}" required></label>
+          <label>한 줄 설명<input id="f-detail" maxlength="40" placeholder="상점 카드에 보이는 문구"></label>
+          <fieldset id="outfit-fields" class="field-group">
+            <legend>옷</legend>
+            <label class="inline">옷 바탕색<input id="f-base" type="color" value="#f6e3c8"></label>
+            <label class="inline">테두리 색<input id="f-seam" type="color" value="#b6956e"></label>
+            <label id="tile-field">무늬 크기 <output id="o-tile"></output><input id="f-tile" type="range" min="8" max="120" step="1" value="34"></label>
+            <label id="motif-field" hidden>그림 크기 <output id="o-motif"></output><input id="f-motif" type="range" min="16" max="140" step="1" value="54"></label>
+            <div class="collar-field"><span>카라 · 목 장식</span><div id="collar-types" class="chip-row" role="group" aria-label="목 장식"></div>
+              <label class="inline" id="collar-color-field">목 장식 색<input id="f-collar-color" type="color" value="#fffaf0"></label></div>
+          </fieldset>
+          <fieldset id="room-fields" class="field-group" hidden>
+            <legend>방 배치</legend>
+            <label>가로 위치 <output id="o-x"></output><input id="f-x" type="range" min="0" max="95" step="0.5" value="10"></label>
+            <label>바닥에서 높이 <output id="o-bottom"></output><input id="f-bottom" type="range" min="0" max="460" step="1" value="85"></label>
+            <label>크기 <output id="o-size"></output><input id="f-size" type="range" min="16" max="280" step="1" value="60"></label>
+          </fieldset>
+          <label class="inline">아이콘 배경색<input id="f-background" type="color" value="#f4eadd"></label>
+          <label class="check"><input id="f-onsale" type="checkbox" checked> 상점에 진열하기 <small>끄면 새로 살 수 없고, 이미 산 사람은 계속 사용해요</small></label>
+          <div class="form-actions"><button id="save" class="studio-primary" type="submit">상점에 저장하기</button><button id="delete" class="studio-danger" type="button" hidden>삭제</button></div>
+          <p id="form-error" class="error-text" role="alert"></p>
+        </form>
+        <div class="shop-sample"><span class="studio-hint">상점 카드 미리보기</span><div id="shop-card" class="wardrobe-list"></div></div>
+      </div>
+    </section>
+  </main>
+  <div id="studio-toast" class="studio-toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

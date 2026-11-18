@@ -13,7 +13,7 @@ test('legacy saves retain biscuits and clothes while gaining an empty room inven
   assert.equal(next.progress.biscuits, 200); assert.deepEqual(next.progress.owned, ['mint']);
 });
 test('all room purchases charge catalog prices, auto-place, and survive reload', () => {
-  for (const item of ROOM_ITEMS) {
+  for (const item of ROOM_ITEMS.filter(item => !item.hidden)) {
     const action = request('buy_item', { item: item.id, price: 0 });
     const bought = transition(pug(item.price), action, T).state;
     assert.equal(bought.progress.biscuits, 0);

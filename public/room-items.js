@@ -8,13 +8,17 @@ const itemArt = {
   shelf: '<path d="M14 8h72v130H14Z" fill="#d9bc91" stroke="#aa8964" stroke-width="3"/><path d="M21 16h58v31H21Zm0 38h58v33H21Zm0 40h58v36H21Z" fill="#f0dec0"/><path d="M12 50h76M12 90h76M18 138v8m64-8v8" fill="none" stroke="#aa8964" stroke-width="5"/><path d="M26 25h10v22H26Z" fill="#a1b89e"/><path d="M38 21h9v26h-9Z" fill="#d49b89"/><path d="m52 28 9-2 5 21h-9Z" fill="#97b3c6"/><path d="M28 67h32v8H28Zm3 10h32v9H31Z" fill="#b7a5bf"/><path d="M64 61h10v25H64Z" fill="#d7bc78"/><path d="M26 103h10v26H26Zm13 4h9v22h-9Z" fill="#97b3c6"/><path d="m54 107 10-3 7 25H60Z" fill="#a1b89e"/>',
 };
 function itemSvg(id) {
+  const custom = state?.roomItems?.find(item => item.id === id && item.custom);
+  if (custom) return customItemSvg(custom);
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', id === 'shelf' ? '0 0 100 150' : '0 0 100 100'); svg.setAttribute('aria-hidden', 'true');
   svg.innerHTML = itemArt[id] || ''; // Only bundled artwork, never user input.
   return svg;
 }
 function roomItemIcon(item) {
-  const preview = journeyElement('div', 'item-preview'); preview.append(itemSvg(item.id)); return preview;
+  const preview = journeyElement('div', 'item-preview'); preview.append(itemSvg(item.id));
+  if (item.custom) preview.style.background = item.custom.background;
+  return preview;
 }
 function renderRoomItems() {
   if (!state?.roomItems) return;
@@ -28,6 +32,7 @@ function renderRoomItems() {
       if (item.id === 'bed') art.setAttribute('preserveAspectRatio', 'none');
       object.append(art); room.append(object);
     }
+    if (item.custom) placeCustomRoomObject(object, item);
     object.hidden = !placed.includes(item.id);
     room.classList.toggle(`has-${item.id}`, placed.includes(item.id));
   }
@@ -35,7 +40,7 @@ function renderRoomItems() {
 }
 function syncParkedToys() {
   const stage = $('pet-stage');
-  for (const id of ['tennis', 'duck', 'rope']) {
+  for (const { id } of state.roomItems.filter(item => item.kind === 'toy')) {
     const object = document.getElementById(`room-${id}`);
     if (object) object.classList.toggle('in-use', focusing && stage.dataset.focusMood === 'play' && stage.dataset.focusToy === id);
   }
@@ -44,6 +49,7 @@ function renderItemShop(blocked) {
   const p = state.progress;
   for (const item of state.roomItems.filter(item => item.kind === shopCategory)) {
     const owned = p.ownedItems.includes(item.id), placed = p.placedItems.includes(item.id);
+    if (item.hidden && !owned) continue;
     const card = journeyElement('article', `wardrobe-card${placed ? ' equipped' : ''}`);
     const badge = journeyElement('span', 'wardrobe-status', placed ? '배치 중' : owned ? '보관 중' : '');
     const title = journeyElement('h3', '', item.name);

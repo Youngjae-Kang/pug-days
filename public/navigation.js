@@ -1,4 +1,4 @@
-const mainTabs = ['care', 'study', 'journey', 'christmas'];
+const mainTabs = ['care', 'study', 'journey', 'shop', 'christmas'];
 function showMainTab(tab, { updateUrl = true, focus = false } = {}) {
   if (!mainTabs.includes(tab)) tab = 'care';
   for (const name of mainTabs) {

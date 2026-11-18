@@ -1,0 +1,9 @@
+/* 퍼그 스튜디오 상품: 가슴 그림 · 목 장식 · 모자 자리 */
+.custom-motif-slot,.custom-collar-slot,.custom-hat-slot{display:none}
+[data-custom-motif] .custom-motif-slot,[data-custom-collar] .custom-collar-slot{display:inline}
+[data-custom-hat] .custom-hat-slot{display:var(--custom-hat,inline)}
+.christmas-santa{--custom-hat:none!important}
+.mini-shirt .mini-motif{width:44%;height:44%;object-fit:contain;margin-top:8%}
+.outfit-preview .mini-hat{width:72%;height:82%;object-fit:contain}
+.empty-shop{grid-column:1/-1;font-size:12px;color:#9a9b89;padding:24px 4px}
+.study-buddy[data-custom-hat]{overflow:visible}

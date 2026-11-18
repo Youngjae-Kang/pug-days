@@ -46,6 +46,8 @@ function updateFocusScene(force = false) {
   stage.dataset.focusToy = toy;
   stage.dataset.focusMood = scene.mood;
   const toyText = { tennis: ['테니스공 놀이 중', '통통! 새 공이 잘 튀네.'], duck: ['오리 장난감 놀이 중', '콕! 삑! 한 번만 더 눌러 볼까?'], rope: ['로프 놀이 중', '으쌰, 내 앞발 힘 좀 봐!'] };
+  const customToy = state.roomItems.find(item => item.id === toy && item.custom);
+  if (customToy) toyText[toy] = [`${customToy.name} 놀이 중`, '이거 새로 생긴 내 장난감이야!'];
   const playing = scene.mood === 'play' && toyText[toy];
   document.querySelector('.room-hint').textContent = playing ? playing[0] : scene.label;
   document.querySelector('.pug').setAttribute('aria-label', playing ? `구매한 장난감으로 ${playing[0]}인 퍼그` : scene.description);

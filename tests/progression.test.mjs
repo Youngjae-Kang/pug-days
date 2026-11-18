@@ -153,7 +153,7 @@ test('earned savings survive migration and an ongoing legacy session switches fu
 });
 
 test('every one of the ten store outfits can be purchased and worn without granting quest outfits', () => {
-  const shop = OUTFITS.filter(o => o.price > 0); assert.equal(shop.length, 10);
+  const shop = OUTFITS.filter(o => o.price > 0 && !o.custom); assert.equal(shop.length, 10);
   for (const outfit of shop) {
     const s = pug(); s.progress.biscuits = outfit.price;
     const bought = act(s, 'buy_outfit', T, { outfit: outfit.id });
